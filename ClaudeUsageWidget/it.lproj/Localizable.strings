@@ -1,0 +1,81 @@
+// General
+"app.title" = "Utilizzo Claude";
+"action.settings" = "Impostazioni";
+"action.quit" = "Esci";
+"action.close" = "Chiudi";
+"action.save" = "Salva";
+"action.cancel" = "Annulla";
+"action.refresh" = "Aggiorna";
+"action.open_settings" = "Apri impostazioni";
+"action.sign_in" = "Accedi con Claude";
+"action.sign_out" = "Disconnetti";
+"action.get_cookie" = "Ottieni cookie";
+
+// Usage periods
+"usage.five_hour" = "Finestra 5 ore";
+"usage.seven_day" = "7 giorni";
+"usage.opus" = "Opus (7G)";
+"usage.sonnet" = "Sonnet (7G)";
+"usage.oauth" = "App OAuth (7G)";
+"usage.cowork" = "Cowork (7G)";
+"usage.code" = "Claude Code (7G)";
+"usage.other" = "Altro (7G)";
+"usage.weekly_label" = "Settimanale: %d%%";
+
+// Urgency
+"urgency.calm" = "Tranquillo";
+"urgency.moderate" = "Moderato";
+"urgency.warning" = "Attenzione";
+"urgency.critical" = "Critico";
+
+// Empty / error states
+"empty.title" = "Non connesso";
+"empty.subtitle" = "Accedi dalle Impostazioni per monitorare l'utilizzo.";
+"error.no_cookie" = "Cookie di sessione non trovato. Aggiungilo nelle Impostazioni.";
+"error.no_org" = "Impossibile recuperare l'ID organizzazione.";
+"error.server %d" = "Errore server: HTTP %d";
+"error.decode %@" = "Errore JSON: %@";
+"error.network %@" = "Errore di rete: %@";
+
+// Settings
+"settings.title" = "Impostazioni";
+"settings.auto_login.title" = "Accesso automatico";
+"settings.auto_login.desc" = "Accedi nella finestra qui sotto — il cookie viene catturato automaticamente.";
+"settings.manual.title" = "Cookie manuale";
+"settings.manual.hint" = "Il cookie è conservato cifrato nel Portachiavi.";
+"settings.how_to" = "Come ottenerlo?";
+"settings.how_to.hide" = "Nascondi";
+"settings.active" = "Sessione attiva";
+"settings.help1" = "Accedi a claude.ai in Chrome";
+"settings.help2" = "Apri DevTools (Cmd+Option+I) → scheda Rete";
+"settings.help3" = "Ricarica la pagina → clicca sulla richiesta 'organizations'";
+"settings.help4" = "Headers → Intestazioni richiesta → copia il valore Cookie";
+
+// Login sheet
+"login.title" = "Accedi a Claude.ai";
+"login.subtitle" = "Accedi, poi premi il pulsante.";
+"login.searching" = "Ricerca...";
+"login.found" = "Cookie catturato ✓";
+"login.not_found" = "Nessun cookie — accedi prima.";
+"login.webview_wait" = "Caricamento WebView...";
+"usage.fable" = "Fable (7G)";
+"usage.all_models" = "Tutti i modelli";
+"usage.used" = "utilizzato";
+"usage.not_used_yet" = "Non ancora utilizzato";
+
+// Widget & refresh
+"widget.show" = "Mostra widget flottante";
+"widget.hide" = "Nascondi widget flottante";
+"settings.preferences.title" = "Preferenze";
+"settings.refresh.title" = "Intervallo di aggiornamento";
+"settings.refresh.5min" = "5 min";
+"settings.refresh.10min" = "10 min";
+"settings.refresh.15min" = "15 min";
+"settings.refresh.off" = "Disattivato";
+"settings.refresh.off.hint" = "Usa il pulsante ↻ nel popover per aggiornare manualmente.";
+"settings.widget.title" = "Mostra widget flottante";
+
+// Section headers
+"section.current_session" = "Sessione corrente";
+"section.weekly" = "Settimanale";
+"section.by_model" = "Per modello";

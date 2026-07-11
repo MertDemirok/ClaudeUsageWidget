@@ -1,0 +1,81 @@
+// General
+"app.title" = "Claude-Nutzung";
+"action.settings" = "Einstellungen";
+"action.quit" = "Beenden";
+"action.close" = "Schließen";
+"action.save" = "Speichern";
+"action.cancel" = "Abbrechen";
+"action.refresh" = "Aktualisieren";
+"action.open_settings" = "Einstellungen öffnen";
+"action.sign_in" = "Mit Claude anmelden";
+"action.sign_out" = "Abmelden";
+"action.get_cookie" = "Cookie holen";
+
+// Usage periods
+"usage.five_hour" = "5-Stunden-Fenster";
+"usage.seven_day" = "7 Tage";
+"usage.opus" = "Opus (7T)";
+"usage.sonnet" = "Sonnet (7T)";
+"usage.oauth" = "OAuth-Apps (7T)";
+"usage.cowork" = "Cowork (7T)";
+"usage.code" = "Claude Code (7T)";
+"usage.other" = "Sonstiges (7T)";
+"usage.weekly_label" = "Wöchentlich: %d%%";
+
+// Urgency
+"urgency.calm" = "Ruhig";
+"urgency.moderate" = "Moderat";
+"urgency.warning" = "Warnung";
+"urgency.critical" = "Kritisch";
+
+// Empty / error states
+"empty.title" = "Nicht angemeldet";
+"empty.subtitle" = "Melden Sie sich in den Einstellungen an, um die Nutzung zu verfolgen.";
+"error.no_cookie" = "Sitzungs-Cookie nicht gefunden. In Einstellungen hinzufügen.";
+"error.no_org" = "Organisations-ID konnte nicht abgerufen werden.";
+"error.server %d" = "Serverfehler: HTTP %d";
+"error.decode %@" = "JSON-Fehler: %@";
+"error.network %@" = "Netzwerkfehler: %@";
+
+// Settings
+"settings.title" = "Einstellungen";
+"settings.auto_login.title" = "Automatische Anmeldung";
+"settings.auto_login.desc" = "Melden Sie sich unten an — der Cookie wird automatisch erfasst.";
+"settings.manual.title" = "Manueller Cookie";
+"settings.manual.hint" = "Cookie wird verschlüsselt im Schlüsselbund gespeichert.";
+"settings.how_to" = "Wie bekomme ich ihn?";
+"settings.how_to.hide" = "Ausblenden";
+"settings.active" = "Sitzung aktiv";
+"settings.help1" = "Bei claude.ai in Chrome anmelden";
+"settings.help2" = "DevTools öffnen (Cmd+Option+I) → Netzwerk-Tab";
+"settings.help3" = "Seite neu laden → auf 'organizations'-Anfrage klicken";
+"settings.help4" = "Headers → Anfrage-Headers → Cookie-Wert kopieren";
+
+// Login sheet
+"login.title" = "Bei Claude.ai anmelden";
+"login.subtitle" = "Melden Sie sich an, dann drücken Sie den Button.";
+"login.searching" = "Suche...";
+"login.found" = "Cookie erfasst ✓";
+"login.not_found" = "Kein Cookie — zuerst anmelden.";
+"login.webview_wait" = "WebView lädt...";
+"usage.fable" = "Fable (7T)";
+"usage.all_models" = "Alle Modelle";
+"usage.used" = "verwendet";
+"usage.not_used_yet" = "Noch nicht verwendet";
+
+// Widget & refresh
+"widget.show" = "Schwebendes Widget anzeigen";
+"widget.hide" = "Schwebendes Widget ausblenden";
+"settings.preferences.title" = "Einstellungen";
+"settings.refresh.title" = "Aktualisierungsintervall";
+"settings.refresh.5min" = "5 Min";
+"settings.refresh.10min" = "10 Min";
+"settings.refresh.15min" = "15 Min";
+"settings.refresh.off" = "Aus";
+"settings.refresh.off.hint" = "Nutzen Sie den ↻ Button im Popover für manuelle Aktualisierung.";
+"settings.widget.title" = "Schwebendes Widget anzeigen";
+
+// Section headers
+"section.current_session" = "Aktuelle Sitzung";
+"section.weekly" = "Wöchentlich";
+"section.by_model" = "Nach Modell";

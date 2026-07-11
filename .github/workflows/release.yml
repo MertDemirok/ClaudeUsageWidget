@@ -1,0 +1,101 @@
+name: Build & Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Select Xcode
+        run: sudo xcode-select -s /Applications/Xcode.app
+
+      - name: Import signing certificate
+        env:
+          CERTIFICATE_BASE64: ${{ secrets.DEVELOPER_ID_CERT_BASE64 }}
+          CERTIFICATE_PASSWORD: ${{ secrets.DEVELOPER_ID_CERT_PASSWORD }}
+          KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
+        run: |
+          KEYCHAIN_PATH=$RUNNER_TEMP/build.keychain
+          echo "$CERTIFICATE_BASE64" | base64 --decode > /tmp/cert.p12
+          security create-keychain -p "$KEYCHAIN_PASSWORD" "$KEYCHAIN_PATH"
+          security set-keychain-settings -lut 21600 "$KEYCHAIN_PATH"
+          security unlock-keychain -p "$KEYCHAIN_PASSWORD" "$KEYCHAIN_PATH"
+          security import /tmp/cert.p12 -P "$CERTIFICATE_PASSWORD" -A -t cert -f pkcs12 -k "$KEYCHAIN_PATH"
+          security list-keychain -d user -s "$KEYCHAIN_PATH"
+          security set-key-partition-list -S apple-tool:,apple: -k "$KEYCHAIN_PASSWORD" "$KEYCHAIN_PATH"
+
+      - name: Build & Archive
+        run: |
+          xcodebuild -project ClaudeUsageWidget.xcodeproj \
+            -scheme ClaudeUsageWidget \
+            -configuration Release \
+            -archivePath build/ClaudeUsageWidget.xcarchive \
+            archive \
+            CODE_SIGN_STYLE=Manual \
+            CODE_SIGN_IDENTITY="Developer ID Application"
+
+      - name: Export .app
+        run: |
+          cat > ExportOptions.plist << 'EOF'
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0"><dict>
+            <key>method</key><string>developer-id</string>
+            <key>signingStyle</key><string>manual</string>
+            <key>signingCertificate</key><string>Developer ID Application</string>
+          </dict></plist>
+          EOF
+          xcodebuild -exportArchive \
+            -archivePath build/ClaudeUsageWidget.xcarchive \
+            -exportPath build/export \
+            -exportOptionsPlist ExportOptions.plist
+
+      - name: Notarize
+        env:
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          APPLE_APP_PASSWORD: ${{ secrets.APPLE_APP_PASSWORD }}
+        run: |
+          ditto -c -k --keepParent build/export/ClaudeUsageWidget.app build/ClaudeUsageWidget.zip
+          xcrun notarytool submit build/ClaudeUsageWidget.zip \
+            --apple-id "$APPLE_ID" \
+            --team-id "$APPLE_TEAM_ID" \
+            --password "$APPLE_APP_PASSWORD" \
+            --wait
+          xcrun stapler staple build/export/ClaudeUsageWidget.app
+          ditto -c -k --keepParent build/export/ClaudeUsageWidget.app build/ClaudeUsageWidget.zip
+
+      - name: Compute SHA256
+        id: sha
+        run: echo "sha256=$(shasum -a 256 build/ClaudeUsageWidget.zip | awk '{print $1}')" >> $GITHUB_OUTPUT
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: build/ClaudeUsageWidget.zip
+          generate_release_notes: true
+
+      - name: Update Homebrew cask
+        env:
+          HOMEBREW_TAP_TOKEN: ${{ secrets.HOMEBREW_TAP_TOKEN }}
+          SHA256: ${{ steps.sha.outputs.sha256 }}
+          VERSION: ${{ github.ref_name }}
+        run: |
+          git clone https://x-access-token:$HOMEBREW_TAP_TOKEN@github.com/${{ github.repository_owner }}/homebrew-claude-usage.git /tmp/tap
+          VERSION_NUM="${VERSION#v}"
+          sed -i '' \
+            -e "s|version \".*\"|version \"$VERSION_NUM\"|" \
+            -e "s|sha256 \".*\"|sha256 \"$SHA256\"|" \
+            -e "s|/download/v[^/]*/|/download/$VERSION/|" \
+            /tmp/tap/Casks/claude-usage-widget.rb
+          cd /tmp/tap
+          git config user.email "bot@github.com"
+          git config user.name "Release Bot"
+          git add -A
+          git commit -m "Update claude-usage-widget to $VERSION_NUM"
+          git push

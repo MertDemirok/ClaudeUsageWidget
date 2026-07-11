@@ -1,0 +1,9 @@
+.DS_Store
+build/
+*.xcarchive
+*.zip
+*.dmg
+xcuserdata/
+*.xcuserstate
+DerivedData/
+.swp

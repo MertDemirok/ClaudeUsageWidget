@@ -1,0 +1,81 @@
+// General
+"app.title" = "Claude Usage";
+"action.settings" = "Settings";
+"action.quit" = "Quit";
+"action.close" = "Close";
+"action.save" = "Save";
+"action.cancel" = "Cancel";
+"action.refresh" = "Refresh";
+"action.open_settings" = "Open Settings";
+"action.sign_in" = "Sign in with Claude";
+"action.sign_out" = "Sign Out";
+"action.get_cookie" = "Get Cookie";
+
+// Usage periods
+"usage.five_hour" = "5-Hour Window";
+"usage.seven_day" = "7-Day";
+"usage.opus" = "Opus (7D)";
+"usage.sonnet" = "Sonnet (7D)";
+"usage.oauth" = "OAuth Apps (7D)";
+"usage.cowork" = "Cowork (7D)";
+"usage.code" = "Claude Code (7D)";
+"usage.other" = "Other (7D)";
+"usage.weekly_label" = "Weekly: %d%%";
+
+// Urgency
+"urgency.calm" = "Calm";
+"urgency.moderate" = "Moderate";
+"urgency.warning" = "Warning";
+"urgency.critical" = "Critical";
+
+// Empty / error states
+"empty.title" = "Not signed in";
+"empty.subtitle" = "Sign in from Settings to track your Claude usage.";
+"error.no_cookie" = "Session cookie not found. Add it in Settings.";
+"error.no_org" = "Could not retrieve Organization ID.";
+"error.server %d" = "Server error: HTTP %d";
+"error.decode %@" = "JSON parse error: %@";
+"error.network %@" = "Network error: %@";
+
+// Settings
+"settings.title" = "Settings";
+"settings.auto_login.title" = "Auto Sign In";
+"settings.auto_login.desc" = "Sign in via the window below — cookie is captured automatically.";
+"settings.manual.title" = "Manual Cookie";
+"settings.manual.hint" = "Cookie is stored encrypted in Keychain.";
+"settings.how_to" = "How do I get it?";
+"settings.how_to.hide" = "Hide";
+"settings.active" = "Session active";
+"settings.help1" = "Sign in to claude.ai in Chrome";
+"settings.help2" = "Open DevTools (Cmd+Option+I) → Network tab";
+"settings.help3" = "Reload the page → click 'organizations' request";
+"settings.help4" = "Headers → Request Headers → copy Cookie value";
+
+// Login sheet
+"login.title" = "Sign in to Claude.ai";
+"login.subtitle" = "Sign in, then press the button below.";
+"login.searching" = "Searching...";
+"login.found" = "Cookie captured ✓";
+"login.not_found" = "No cookie found — sign in first.";
+"login.webview_wait" = "WebView loading, please wait...";
+"usage.fable" = "Fable (7D)";
+"usage.all_models" = "All Models";
+"usage.used" = "used";
+"usage.not_used_yet" = "You haven't used this yet";
+
+// Widget & refresh
+"widget.show" = "Show floating widget";
+"widget.hide" = "Hide floating widget";
+"settings.preferences.title" = "Preferences";
+"settings.refresh.title" = "Auto-refresh interval";
+"settings.refresh.5min" = "5 min";
+"settings.refresh.10min" = "10 min";
+"settings.refresh.15min" = "15 min";
+"settings.refresh.off" = "Off";
+"settings.refresh.off.hint" = "Use the ↻ button in the popover to refresh manually.";
+"settings.widget.title" = "Show floating widget";
+
+// Section headers
+"section.current_session" = "Current Session";
+"section.weekly" = "Weekly";
+"section.by_model" = "By Model";

@@ -1,0 +1,81 @@
+// General
+"app.title" = "Claude Kullanım";
+"action.settings" = "Ayarlar";
+"action.quit" = "Çıkış";
+"action.close" = "Kapat";
+"action.save" = "Kaydet";
+"action.cancel" = "İptal";
+"action.refresh" = "Yenile";
+"action.open_settings" = "Ayarları Aç";
+"action.sign_in" = "Claude ile Giriş Yap";
+"action.sign_out" = "Oturumu Kapat";
+"action.get_cookie" = "Cookie Al";
+
+// Usage periods
+"usage.five_hour" = "5 Saatlik Pencere";
+"usage.seven_day" = "7 Günlük";
+"usage.opus" = "Opus (7G)";
+"usage.sonnet" = "Sonnet (7G)";
+"usage.oauth" = "OAuth Uygulamaları (7G)";
+"usage.cowork" = "Cowork (7G)";
+"usage.code" = "Claude Code (7G)";
+"usage.other" = "Diğer (7G)";
+"usage.weekly_label" = "Haftalık: %%%d";
+
+// Urgency
+"urgency.calm" = "Rahat";
+"urgency.moderate" = "Normal";
+"urgency.warning" = "Dikkat";
+"urgency.critical" = "Kritik";
+
+// Empty / error states
+"empty.title" = "Giriş yapılmamış";
+"empty.subtitle" = "Claude kullanımını takip etmek için Ayarlar'dan giriş yap.";
+"error.no_cookie" = "Session cookie bulunamadı. Ayarlardan ekleyin.";
+"error.no_org" = "Organization ID alınamadı.";
+"error.server %d" = "Sunucu hatası: HTTP %d";
+"error.decode %@" = "JSON parse hatası: %@";
+"error.network %@" = "Ağ hatası: %@";
+
+// Settings
+"settings.title" = "Ayarlar";
+"settings.auto_login.title" = "Otomatik Giriş";
+"settings.auto_login.desc" = "Aşağıda claude.ai'ye giriş yap — cookie otomatik alınır.";
+"settings.manual.title" = "Manuel Cookie";
+"settings.manual.hint" = "Cookie Keychain'de şifreli saklanır.";
+"settings.how_to" = "Nasıl alırım?";
+"settings.how_to.hide" = "Gizle";
+"settings.active" = "Oturum aktif";
+"settings.help1" = "Chrome'da claude.ai'ye giriş yap";
+"settings.help2" = "DevTools'u aç (Cmd+Option+I) → Network sekmesi";
+"settings.help3" = "Sayfayı yenile → 'organizations' isteğine tıkla";
+"settings.help4" = "Headers → Request Headers → Cookie değerini kopyala";
+
+// Login sheet
+"login.title" = "Claude.ai'ye Giriş Yap";
+"login.subtitle" = "Giriş yaptıktan sonra aşağıdaki butona bas.";
+"login.searching" = "Aranıyor...";
+"login.found" = "Cookie alındı ✓";
+"login.not_found" = "Cookie bulunamadı — önce giriş yap.";
+"login.webview_wait" = "WebView yükleniyor, bekle...";
+"usage.fable" = "Fable (7G)";
+"usage.all_models" = "Tüm Modeller";
+"usage.used" = "kullanıldı";
+"usage.not_used_yet" = "Henüz kullanmadınız";
+
+// Widget & refresh
+"widget.show" = "Gezinen widget'ı göster";
+"widget.hide" = "Gezinen widget'ı gizle";
+"settings.preferences.title" = "Tercihler";
+"settings.refresh.title" = "Otomatik yenileme aralığı";
+"settings.refresh.5min" = "5 dk";
+"settings.refresh.10min" = "10 dk";
+"settings.refresh.15min" = "15 dk";
+"settings.refresh.off" = "Kapalı";
+"settings.refresh.off.hint" = "Manuel yenilemek için popup'taki ↻ butonunu kullanın.";
+"settings.widget.title" = "Gezinen widget'ı göster";
+
+// Section headers
+"section.current_session" = "Mevcut Oturum";
+"section.weekly" = "Haftalık";
+"section.by_model" = "Modele Göre";

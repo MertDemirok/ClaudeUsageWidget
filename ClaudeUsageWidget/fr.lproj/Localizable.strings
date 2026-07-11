@@ -1,0 +1,81 @@
+// General
+"app.title" = "Utilisation Claude";
+"action.settings" = "Paramètres";
+"action.quit" = "Quitter";
+"action.close" = "Fermer";
+"action.save" = "Enregistrer";
+"action.cancel" = "Annuler";
+"action.refresh" = "Actualiser";
+"action.open_settings" = "Ouvrir les paramètres";
+"action.sign_in" = "Se connecter avec Claude";
+"action.sign_out" = "Se déconnecter";
+"action.get_cookie" = "Obtenir le cookie";
+
+// Usage periods
+"usage.five_hour" = "Fenêtre 5 heures";
+"usage.seven_day" = "7 jours";
+"usage.opus" = "Opus (7J)";
+"usage.sonnet" = "Sonnet (7J)";
+"usage.oauth" = "Apps OAuth (7J)";
+"usage.cowork" = "Cowork (7J)";
+"usage.code" = "Claude Code (7J)";
+"usage.other" = "Autre (7J)";
+"usage.weekly_label" = "Hebdo : %d%%";
+
+// Urgency
+"urgency.calm" = "Calme";
+"urgency.moderate" = "Modéré";
+"urgency.warning" = "Attention";
+"urgency.critical" = "Critique";
+
+// Empty / error states
+"empty.title" = "Non connecté";
+"empty.subtitle" = "Connectez-vous depuis les Paramètres pour suivre votre utilisation.";
+"error.no_cookie" = "Cookie de session introuvable. Ajoutez-le dans les Paramètres.";
+"error.no_org" = "Impossible de récupérer l'ID d'organisation.";
+"error.server %d" = "Erreur serveur : HTTP %d";
+"error.decode %@" = "Erreur JSON : %@";
+"error.network %@" = "Erreur réseau : %@";
+
+// Settings
+"settings.title" = "Paramètres";
+"settings.auto_login.title" = "Connexion automatique";
+"settings.auto_login.desc" = "Connectez-vous via la fenêtre ci-dessous — le cookie est capturé automatiquement.";
+"settings.manual.title" = "Cookie manuel";
+"settings.manual.hint" = "Le cookie est stocké chiffré dans le Trousseau.";
+"settings.how_to" = "Comment l'obtenir ?";
+"settings.how_to.hide" = "Masquer";
+"settings.active" = "Session active";
+"settings.help1" = "Connectez-vous à claude.ai dans Chrome";
+"settings.help2" = "Ouvrez DevTools (Cmd+Option+I) → onglet Réseau";
+"settings.help3" = "Rechargez la page → cliquez sur la requête 'organizations'";
+"settings.help4" = "En-têtes → En-têtes de requête → copiez la valeur Cookie";
+
+// Login sheet
+"login.title" = "Connexion à Claude.ai";
+"login.subtitle" = "Connectez-vous, puis appuyez sur le bouton.";
+"login.searching" = "Recherche...";
+"login.found" = "Cookie capturé ✓";
+"login.not_found" = "Cookie introuvable — connectez-vous d'abord.";
+"login.webview_wait" = "Chargement du WebView...";
+"usage.fable" = "Fable (7J)";
+"usage.all_models" = "Tous les modèles";
+"usage.used" = "utilisé";
+"usage.not_used_yet" = "Pas encore utilisé";
+
+// Widget & refresh
+"widget.show" = "Afficher le widget flottant";
+"widget.hide" = "Masquer le widget flottant";
+"settings.preferences.title" = "Préférences";
+"settings.refresh.title" = "Intervalle de rafraîchissement";
+"settings.refresh.5min" = "5 min";
+"settings.refresh.10min" = "10 min";
+"settings.refresh.15min" = "15 min";
+"settings.refresh.off" = "Désactivé";
+"settings.refresh.off.hint" = "Utilisez le bouton ↻ dans la fenêtre pour rafraîchir manuellement.";
+"settings.widget.title" = "Afficher le widget flottant";
+
+// Section headers
+"section.current_session" = "Session actuelle";
+"section.weekly" = "Hebdomadaire";
+"section.by_model" = "Par modèle";
