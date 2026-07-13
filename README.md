@@ -2,7 +2,10 @@
 
 A macOS menu bar app that tracks your [Claude.ai](https://claude.ai) usage in real time — see your 5-hour session and weekly limits at a glance, with per-model breakdowns.
 
-![Claude Usage Widget screenshot](https://github.com/MertDemirok/ClaudeUsageWidget/assets/screenshot.png)
+<p align="center">
+  <img src=".github/assets/menubar.png" alt="Menu bar icon showing usage percentage" width="320"><br><br>
+  <img src=".github/assets/popup.png" alt="Usage popup panel" width="420">
+</p>
 
 ---
 
