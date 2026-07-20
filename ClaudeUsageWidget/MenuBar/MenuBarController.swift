@@ -90,19 +90,10 @@ final class MenuBarController {
         )
 
         let width: CGFloat = 280
-        let height: CGFloat = 480
-
-        // X: tıklanan ikona ortalı, ekrandan taşmasın
-        let x = max(
-            screen.visibleFrame.minX + 8,
-            min(buttonRect.midX - width / 2, screen.visibleFrame.maxX - width - 8)
-        )
-        // Y: menu bar'ın hemen altı (visibleFrame.maxY = menu bar'ın alt kenarı)
-        let y = screen.visibleFrame.maxY - height - 4
 
         if popoverPanel == nil {
             let panel = NSPanel(
-                contentRect: NSRect(x: x, y: y, width: width, height: height),
+                contentRect: NSRect(x: 0, y: 0, width: width, height: 480),
                 styleMask: [.borderless, .nonactivatingPanel],
                 backing: .buffered,
                 defer: false
@@ -120,7 +111,21 @@ final class MenuBarController {
             popoverPanel = panel
         }
 
-        popoverPanel?.setFrameOrigin(NSPoint(x: x, y: y))
+        // İçeriğin gerçek yüksekliğini hesapla ve paneli ona göre boyutla
+        popoverPanel?.layoutIfNeeded()
+        let contentHeight = popoverPanel?.contentView?.fittingSize.height ?? 480
+        popoverPanel?.setContentSize(NSSize(width: width, height: contentHeight))
+
+        // X: tıklanan ikona ortalı, ekrandan taşmasın
+        let x = max(
+            screen.visibleFrame.minX + 8,
+            min(buttonRect.midX - width / 2, screen.visibleFrame.maxX - width - 8)
+        )
+        // Üst-sol köşeyi menü bar'ın hemen altına sabitle
+        // (içerik yüksekliği değişse de kaymaması için setFrameTopLeftPoint)
+        let topY = screen.visibleFrame.maxY - 4
+
+        popoverPanel?.setFrameTopLeftPoint(NSPoint(x: x, y: topY))
         popoverPanel?.orderFront(nil)
 
         // Dışarı tıklayınca kapat
