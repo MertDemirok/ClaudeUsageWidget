@@ -14,6 +14,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
         menuBarController = MenuBarController(store: store)
 
+        // Gezinen widget şimdilik kapalı (AppConfig.floatingWidgetEnabled).
+        guard AppConfig.floatingWidgetEnabled else { return }
+
         floatingPanel = FloatingPanel()
         let widgetView = NSHostingView(rootView: CharacterWidgetView(store: store))
         widgetView.wantsLayer = true
@@ -26,9 +29,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         store.$isWidgetVisible
             .receive(on: RunLoop.main)
             .sink { [weak self] visible in
-                guard let self else { return }
-                if visible { self.floatingPanel.orderFront(nil) }
-                else { self.floatingPanel.orderOut(nil) }
+                guard let self, let panel = self.floatingPanel else { return }
+                if visible { panel.orderFront(nil) }
+                else { panel.orderOut(nil) }
             }
             .store(in: &cancellables)
 
@@ -41,11 +44,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func applicationWillTerminate(_ notification: Notification) {
-        floatingPanel.savePosition()
+        floatingPanel?.savePosition()
     }
 
     @objc private func panelMoved() {
-        floatingPanel.savePosition()
+        floatingPanel?.savePosition()
     }
 
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {

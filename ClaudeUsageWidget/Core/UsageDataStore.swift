@@ -1,6 +1,12 @@
 import Foundation
 import Combine
 
+/// Uygulama genel yapılandırma bayrakları.
+enum AppConfig {
+    /// Gezinen (floating) orb widget'ı şimdilik kapalı — ileride açılacak.
+    static let floatingWidgetEnabled = false
+}
+
 @MainActor
 final class UsageDataStore: ObservableObject {
     @Published var fiveHourPeriod: UsagePeriod? = nil
@@ -11,6 +17,10 @@ final class UsageDataStore: ObservableObject {
     @Published var errorMessage: String? = nil
     @Published var isLoading: Bool = false
     @Published var sessionCookie: String = ""
+
+    // Kullanım geçmişi (yerel SwiftData) — chart bunu kullanır
+    @Published var historySnapshots: [UsageSnapshot] = []
+    private let history = UsageHistoryStore()
 
     // Widget visibility — persisted
     @Published var isWidgetVisible: Bool = true {
@@ -38,6 +48,7 @@ final class UsageDataStore: ObservableObject {
         isWidgetVisible = UserDefaults.standard.object(forKey: "widgetVisible") as? Bool ?? true
         refreshIntervalMinutes = UserDefaults.standard.object(forKey: "refreshInterval") as? Int ?? 5
         sessionCookie = KeychainStore.load(key: cookieKey) ?? ""
+        historySnapshots = history.recentSnapshots(days: 30)
         if !sessionCookie.isEmpty { Task { await refresh() } }
         restartTimer()
     }
@@ -81,6 +92,11 @@ final class UsageDataStore: ObservableObject {
             add(String(localized: "usage.other"),  r.sevenDayOmelette)
             modelPeriods = periods
             lastUpdated = Date()
+
+            // Anlık görüntüyü yerel geçmişe kaydet ve chart'ı güncelle
+            history.record(fiveHour: fiveHourPeriod?.percent ?? 0,
+                           weekly: sevenDayPeriod?.percent ?? 0)
+            historySnapshots = history.recentSnapshots(days: 30)
         } catch {
             errorMessage = error.localizedDescription
         }

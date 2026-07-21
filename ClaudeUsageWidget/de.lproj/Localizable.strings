@@ -79,3 +79,10 @@
 "section.current_session" = "Aktuelle Sitzung";
 "section.weekly" = "Wöchentlich";
 "section.by_model" = "Nach Modell";
+"section.history" = "Verlauf";
+"history.collecting" = "Daten werden gesammelt…";
+
+// History chart ranges
+"range.day" = "Tag";
+"range.week" = "Woche";
+"range.month" = "Monat";

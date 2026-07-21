@@ -79,3 +79,10 @@
 "section.current_session" = "Mevcut Oturum";
 "section.weekly" = "Haftalık";
 "section.by_model" = "Modele Göre";
+"section.history" = "Geçmiş";
+"history.collecting" = "Veri toplanıyor…";
+
+// History chart ranges
+"range.day" = "Gün";
+"range.week" = "Hafta";
+"range.month" = "Ay";

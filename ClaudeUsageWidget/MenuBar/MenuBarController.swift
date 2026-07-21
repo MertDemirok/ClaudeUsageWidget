@@ -1,12 +1,12 @@
 import AppKit
 import Combine
 import SwiftUI
-import PhosphorSwift
 
 @MainActor
 final class MenuBarController {
     private var statusItem: NSStatusItem!
     private var popoverPanel: NSPanel?
+    private var popoverHostingView: NSHostingView<MenuBarPopoverView>?
     private var eventMonitor: Any?
     private var cancellables = Set<AnyCancellable>()
     private let store: UsageDataStore
@@ -38,36 +38,25 @@ final class MenuBarController {
     private func updateButton(pct: Double, loading: Bool, hasError: Bool = false) {
         guard let button = statusItem.button else { return }
 
-        if loading {
-            setButtonImage(render(Ph.circleDashed.regular), tint: .gray, button: button)
-            button.title = ""
-            return
-        }
-        if hasError {
-            setButtonImage(render(Ph.warningCircle.regular), tint: .systemRed, button: button)
-            button.title = ""
-            return
-        }
+        let color: NSColor
+        if loading { color = NSColor.secondaryLabelColor }
+        else if hasError { color = .systemRed }
+        else { color = urgencyNSColor(pct: pct) }
 
-        let phImage: NSImage?
-        switch pct {
-        case ..<50:   phImage = render(Ph.circle.regular)
-        case 50..<75: phImage = render(Ph.circleHalf.regular)
-        case 75..<90: phImage = render(Ph.warning.regular)
-        default:      phImage = render(Ph.warningCircle.regular)
-        }
-
-        setButtonImage(phImage, tint: urgencyNSColor(pct: pct), button: button)
-        button.title = " \(Int(pct))%"
+        button.image = renderTerrier(color: color)
         button.imagePosition = .imageLeft
+        button.title = (loading || hasError) ? "" : " \(Int(pct))%"
     }
 
-    private func render(_ image: Image, size: CGFloat = 14) -> NSImage? {
-        let renderer = ImageRenderer(
-            content: image.resizable().scaledToFit().frame(width: size, height: size)
-        )
-        renderer.scale = 2.0
-        return renderer.nsImage
+    /// Boston Terrier karakterini menü bar ikonu olarak NSImage'e render eder.
+    private func renderTerrier(color: NSColor, size: CGFloat = 18) -> NSImage? {
+        let view = BostonTerrierIcon(color: Color(nsColor: color))
+            .frame(width: size, height: size)
+        let renderer = ImageRenderer(content: view)
+        renderer.scale = 3.0
+        let img = renderer.nsImage
+        img?.isTemplate = false
+        return img
     }
 
     @objc private func togglePopover() {
@@ -103,17 +92,32 @@ final class MenuBarController {
             panel.isOpaque = false
             panel.hasShadow = true
             panel.level = .popUpMenu
+
+            // Arka planda dark blur — cam (glass) etki için
+            let blur = NSVisualEffectView(frame: NSRect(x: 0, y: 0, width: width, height: 480))
+            blur.material = .hudWindow
+            blur.blendingMode = .behindWindow
+            blur.state = .active
+            blur.wantsLayer = true
+            blur.layer?.cornerRadius = 20
+            blur.layer?.masksToBounds = true
+
             let hostingView = NSHostingView(rootView: MenuBarPopoverView(store: store))
             hostingView.wantsLayer = true
             hostingView.layer?.backgroundColor = .clear
             hostingView.layer?.borderWidth = 0
-            panel.contentView = hostingView
+            hostingView.frame = blur.bounds
+            hostingView.autoresizingMask = [.width, .height]
+            blur.addSubview(hostingView)
+
+            panel.contentView = blur
             popoverPanel = panel
+            popoverHostingView = hostingView
         }
 
         // İçeriğin gerçek yüksekliğini hesapla ve paneli ona göre boyutla
-        popoverPanel?.layoutIfNeeded()
-        let contentHeight = popoverPanel?.contentView?.fittingSize.height ?? 480
+        popoverHostingView?.layoutSubtreeIfNeeded()
+        let contentHeight = popoverHostingView?.fittingSize.height ?? 480
         popoverPanel?.setContentSize(NSSize(width: width, height: contentHeight))
 
         // X: tıklanan ikona ortalı, ekrandan taşmasın
@@ -144,30 +148,11 @@ final class MenuBarController {
         }
     }
 
-    private func setButtonImage(_ img: NSImage?, tint: NSColor, button: NSButton) {
-        guard let img else { return }
-        img.size = NSSize(width: 14, height: 14)
-        let colored = img.tinted(with: tint)
-        colored.isTemplate = false
-        button.image = colored
-    }
-
     private func urgencyNSColor(pct: Double) -> NSColor {
         switch pct {
         case ..<60: return NSColor(red: 0.831, green: 0.463, blue: 0.282, alpha: 1)
         case 60..<80: return NSColor(red: 0.85, green: 0.30, blue: 0.10, alpha: 1)
         default: return .systemRed
         }
-    }
-}
-
-private extension NSImage {
-    func tinted(with color: NSColor) -> NSImage {
-        let copy = self.copy() as! NSImage
-        copy.lockFocus()
-        color.set()
-        NSRect(origin: .zero, size: copy.size).fill(using: .sourceAtop)
-        copy.unlockFocus()
-        return copy
     }
 }

@@ -17,7 +17,7 @@ struct MenuBarPopoverView: View {
             footer
         }
         .frame(width: 280)
-        .background(Color.claudeDark)
+        .background(Color.claudeDark.opacity(0.32))
         .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
         .sheet(isPresented: $showingSettings) {
             SettingsView(store: store)
@@ -65,7 +65,7 @@ struct MenuBarPopoverView: View {
             }
             .padding(16)
         }
-        .background(headerGradient)
+        .background(headerGradient.opacity(0.82))
         .clipped()
     }
 
@@ -206,6 +206,10 @@ struct MenuBarPopoverView: View {
                     .padding(.horizontal, 12)
                     .padding(.top, 12)
 
+                UsageHistoryChart(snapshots: store.historySnapshots)
+                    .padding(.horizontal, 12)
+                    .padding(.top, 10)
+
                 if !store.modelPeriods.isEmpty {
                     modelSection
                         .padding(.horizontal, 12)
@@ -214,7 +218,6 @@ struct MenuBarPopoverView: View {
                 }
             }
         }
-        .background(Color.claudeDark)
     }
 
     private var weeklyCard: some View {
@@ -398,22 +401,24 @@ struct MenuBarPopoverView: View {
             }
             Spacer()
 
-            Button {
-                store.isWidgetVisible.toggle()
-            } label: {
-                if store.isWidgetVisible {
-                    Ph.eyeSlash.regular.resizable().scaledToFit().frame(width: 13, height: 13)
-                } else {
-                    Ph.eye.regular.resizable().scaledToFit().frame(width: 13, height: 13)
+            if AppConfig.floatingWidgetEnabled {
+                Button {
+                    store.isWidgetVisible.toggle()
+                } label: {
+                    if store.isWidgetVisible {
+                        Ph.eyeSlash.regular.resizable().scaledToFit().frame(width: 13, height: 13)
+                    } else {
+                        Ph.eye.regular.resizable().scaledToFit().frame(width: 13, height: 13)
+                    }
                 }
-            }
-            .buttonStyle(.plain)
-            .foregroundColor(.white.opacity(0.3))
-            .help(store.isWidgetVisible
-                  ? String(localized: "widget.hide")
-                  : String(localized: "widget.show"))
+                .buttonStyle(.plain)
+                .foregroundColor(.white.opacity(0.3))
+                .help(store.isWidgetVisible
+                      ? String(localized: "widget.hide")
+                      : String(localized: "widget.show"))
 
-            footerSep
+                footerSep
+            }
 
             Button("action.settings") { showingSettings = true }
                 .font(.system(size: 11))
@@ -429,7 +434,7 @@ struct MenuBarPopoverView: View {
         }
         .padding(.horizontal, 14)
         .padding(.vertical, 10)
-        .background(Color.claudeDark)
+        .background(Color.black.opacity(0.2))
         .overlay(alignment: .top) {
             Rectangle()
                 .fill(Color.white.opacity(0.05))

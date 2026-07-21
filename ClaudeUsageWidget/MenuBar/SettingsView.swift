@@ -111,12 +111,14 @@ struct SettingsView: View {
                 }
             }
 
-            // Widget visibility
-            Toggle(isOn: $store.isWidgetVisible) {
-                Label(title: { Text("settings.widget.title").font(.subheadline) },
-                      icon: { Ph.appWindow.regular.resizable().scaledToFit().frame(width: 14, height: 14) })
+            // Widget visibility (gezinen widget şimdilik kapalı)
+            if AppConfig.floatingWidgetEnabled {
+                Toggle(isOn: $store.isWidgetVisible) {
+                    Label(title: { Text("settings.widget.title").font(.subheadline) },
+                          icon: { Ph.appWindow.regular.resizable().scaledToFit().frame(width: 14, height: 14) })
+                }
+                .toggleStyle(.switch)
             }
-            .toggleStyle(.switch)
         }
     }
 
