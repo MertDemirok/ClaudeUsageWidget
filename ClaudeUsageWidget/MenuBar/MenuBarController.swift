@@ -8,6 +8,7 @@ final class MenuBarController {
     private var popoverPanel: NSPanel?
     private var popoverHostingView: NSHostingView<MenuBarPopoverView>?
     private var eventMonitor: Any?
+    private var localEventMonitor: Any?
     private var cancellables = Set<AnyCancellable>()
     private let store: UsageDataStore
 
@@ -80,40 +81,40 @@ final class MenuBarController {
 
         let width: CGFloat = 280
 
-        if popoverPanel == nil {
-            let panel = NSPanel(
-                contentRect: NSRect(x: 0, y: 0, width: width, height: 480),
-                styleMask: [.borderless, .nonactivatingPanel],
-                backing: .buffered,
-                defer: false
-            )
-            panel.isFloatingPanel = true
-            panel.backgroundColor = .clear
-            panel.isOpaque = false
-            panel.hasShadow = true
-            panel.level = .popUpMenu
+        // Paneli her açılışta taze kur — kapalıyken arka planda (her refresh'te)
+        // chart'ın yeniden render edilmesini önler.
+        let panel = NSPanel(
+            contentRect: NSRect(x: 0, y: 0, width: width, height: 480),
+            styleMask: [.borderless, .nonactivatingPanel],
+            backing: .buffered,
+            defer: false
+        )
+        panel.isFloatingPanel = true
+        panel.backgroundColor = .clear
+        panel.isOpaque = false
+        panel.hasShadow = true
+        panel.level = .popUpMenu
 
-            // Arka planda dark blur — cam (glass) etki için
-            let blur = NSVisualEffectView(frame: NSRect(x: 0, y: 0, width: width, height: 480))
-            blur.material = .hudWindow
-            blur.blendingMode = .behindWindow
-            blur.state = .active
-            blur.wantsLayer = true
-            blur.layer?.cornerRadius = 20
-            blur.layer?.masksToBounds = true
+        // Arka planda dark blur — cam (glass) etki için
+        let blur = NSVisualEffectView(frame: NSRect(x: 0, y: 0, width: width, height: 480))
+        blur.material = .hudWindow
+        blur.blendingMode = .behindWindow
+        blur.state = .active
+        blur.wantsLayer = true
+        blur.layer?.cornerRadius = 20
+        blur.layer?.masksToBounds = true
 
-            let hostingView = NSHostingView(rootView: MenuBarPopoverView(store: store))
-            hostingView.wantsLayer = true
-            hostingView.layer?.backgroundColor = .clear
-            hostingView.layer?.borderWidth = 0
-            hostingView.frame = blur.bounds
-            hostingView.autoresizingMask = [.width, .height]
-            blur.addSubview(hostingView)
+        let hostingView = NSHostingView(rootView: MenuBarPopoverView(store: store))
+        hostingView.wantsLayer = true
+        hostingView.layer?.backgroundColor = .clear
+        hostingView.layer?.borderWidth = 0
+        hostingView.frame = blur.bounds
+        hostingView.autoresizingMask = [.width, .height]
+        blur.addSubview(hostingView)
 
-            panel.contentView = blur
-            popoverPanel = panel
-            popoverHostingView = hostingView
-        }
+        panel.contentView = blur
+        popoverPanel = panel
+        popoverHostingView = hostingView
 
         // İçeriğin gerçek yüksekliğini hesapla ve paneli ona göre boyutla
         popoverHostingView?.layoutSubtreeIfNeeded()
@@ -132,20 +133,40 @@ final class MenuBarController {
         popoverPanel?.setFrameTopLeftPoint(NSPoint(x: x, y: topY))
         popoverPanel?.orderFront(nil)
 
-        // Dışarı tıklayınca kapat
+        // Başka uygulamaya tıklayınca kapat
         eventMonitor = NSEvent.addGlobalMonitorForEvents(
             matching: [.leftMouseDown, .rightMouseDown]
         ) { [weak self] _ in
             self?.hidePopover()
         }
+        // Uygulama aktifken (popup dışına) tıklayınca kapat
+        localEventMonitor = NSEvent.addLocalMonitorForEvents(
+            matching: [.leftMouseDown, .rightMouseDown]
+        ) { [weak self] event in
+            guard let self else { return event }
+            // Popup içine tıklama → açık kalsın
+            if event.window == self.popoverPanel { return event }
+            // Menü bar butonu → kendi action'ı toggle etsin
+            if event.window == self.statusItem.button?.window { return event }
+            self.hidePopover()
+            return event
+        }
     }
 
     private func hidePopover() {
-        popoverPanel?.orderOut(nil)
         if let monitor = eventMonitor {
             NSEvent.removeMonitor(monitor)
             eventMonitor = nil
         }
+        if let monitor = localEventMonitor {
+            NSEvent.removeMonitor(monitor)
+            localEventMonitor = nil
+        }
+        popoverPanel?.orderOut(nil)
+        // Paneli ve SwiftUI hosting view'ı serbest bırak — arka plan render churn'ünü keser
+        popoverPanel?.contentView = nil
+        popoverHostingView = nil
+        popoverPanel = nil
     }
 
     private func urgencyNSColor(pct: Double) -> NSColor {
