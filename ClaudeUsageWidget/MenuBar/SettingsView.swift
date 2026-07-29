@@ -93,6 +93,13 @@ struct SettingsView: View {
             Label(title: { Text("settings.preferences.title").font(.headline) },
                   icon: { Ph.slidersHorizontal.regular.resizable().scaledToFit().frame(width: 16, height: 16) })
 
+            // Notifications
+            Toggle(isOn: $store.notificationsEnabled) {
+                Label(title: { Text("settings.notifications.title").font(.subheadline) },
+                      icon: { Ph.bell.regular.resizable().scaledToFit().frame(width: 14, height: 14) })
+            }
+            .toggleStyle(.switch)
+
             // Refresh interval
             VStack(alignment: .leading, spacing: 6) {
                 Text("settings.refresh.title")

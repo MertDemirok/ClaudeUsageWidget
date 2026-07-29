@@ -86,3 +86,8 @@
 "range.day" = "Giorno";
 "range.week" = "Settimana";
 "range.month" = "Mese";
+
+// Notifications
+"notify.title" = "Avviso utilizzo Claude";
+"notify.body" = "La sessione di 5 ore è al %d%%.";
+"settings.notifications.title" = "Notifiche";

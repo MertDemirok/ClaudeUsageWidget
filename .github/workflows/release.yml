@@ -19,14 +19,18 @@ jobs:
 
       - name: Build & Archive
         run: |
+          # Ad-hoc imza ("-") — sertifika gerektirmez ama bildirimlerin
+          # (UNUserNotificationCenter) çalışması için gerekli.
           xcodebuild -project ClaudeUsageWidget.xcodeproj \
             -scheme ClaudeUsageWidget \
             -configuration Release \
             -archivePath build/ClaudeUsageWidget.xcarchive \
             archive \
-            CODE_SIGN_IDENTITY="" \
-            CODE_SIGNING_REQUIRED=NO \
-            CODE_SIGNING_ALLOWED=NO
+            CODE_SIGN_IDENTITY="-" \
+            CODE_SIGN_STYLE=Manual \
+            CODE_SIGNING_REQUIRED=YES \
+            CODE_SIGNING_ALLOWED=YES \
+            DEVELOPMENT_TEAM=""
 
       - name: Export .app
         run: |

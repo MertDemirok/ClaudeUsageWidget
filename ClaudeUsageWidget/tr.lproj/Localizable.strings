@@ -86,3 +86,8 @@
 "range.day" = "Gün";
 "range.week" = "Hafta";
 "range.month" = "Ay";
+
+// Notifications
+"notify.title" = "Claude Kullanım Uyarısı";
+"notify.body" = "5 saatlik oturumun %%%d doldu.";
+"settings.notifications.title" = "Bildirimler";

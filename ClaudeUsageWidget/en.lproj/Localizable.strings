@@ -86,3 +86,8 @@
 "range.day" = "Day";
 "range.week" = "Week";
 "range.month" = "Month";
+
+// Notifications
+"notify.title" = "Claude Usage Alert";
+"notify.body" = "Your 5-hour session is at %d%%.";
+"settings.notifications.title" = "Notifications";

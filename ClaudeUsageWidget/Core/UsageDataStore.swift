@@ -27,6 +27,11 @@ final class UsageDataStore: ObservableObject {
         didSet { UserDefaults.standard.set(isWidgetVisible, forKey: "widgetVisible") }
     }
 
+    // Bildirimler açık/kapalı — persisted
+    @Published var notificationsEnabled: Bool = true {
+        didSet { UserDefaults.standard.set(notificationsEnabled, forKey: "notificationsEnabled") }
+    }
+
     // Refresh interval in minutes; 0 = manual only — persisted
     @Published var refreshIntervalMinutes: Int = 5 {
         didSet {
@@ -46,6 +51,7 @@ final class UsageDataStore: ObservableObject {
 
     init() {
         isWidgetVisible = UserDefaults.standard.object(forKey: "widgetVisible") as? Bool ?? true
+        notificationsEnabled = UserDefaults.standard.object(forKey: "notificationsEnabled") as? Bool ?? true
         refreshIntervalMinutes = UserDefaults.standard.object(forKey: "refreshInterval") as? Int ?? 5
         sessionCookie = KeychainStore.load(key: cookieKey) ?? ""
         historySnapshots = history.recentSnapshots(days: 30)
@@ -97,6 +103,10 @@ final class UsageDataStore: ObservableObject {
             history.record(fiveHour: fiveHourPeriod?.percent ?? 0,
                            weekly: sevenDayPeriod?.percent ?? 0)
             historySnapshots = history.recentSnapshots(days: 30)
+
+            // Eşik aşıldıysa bildir
+            UsageNotifier.shared.evaluate(percent: fiveHourPeriod?.percent ?? 0,
+                                          enabled: notificationsEnabled)
         } catch {
             errorMessage = error.localizedDescription
         }

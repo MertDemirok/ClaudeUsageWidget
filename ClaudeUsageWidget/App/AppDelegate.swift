@@ -12,6 +12,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ notification: Notification) {
         NSApp.setActivationPolicy(.accessory)
 
+        UsageNotifier.shared.requestAuthorization()
+
         menuBarController = MenuBarController(store: store)
 
         // Gezinen widget şimdilik kapalı (AppConfig.floatingWidgetEnabled).

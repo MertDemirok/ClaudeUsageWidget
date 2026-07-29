@@ -86,3 +86,8 @@
 "range.day" = "Tag";
 "range.week" = "Woche";
 "range.month" = "Monat";
+
+// Notifications
+"notify.title" = "Claude-Nutzungswarnung";
+"notify.body" = "Deine 5-Stunden-Sitzung ist bei %d%%.";
+"settings.notifications.title" = "Benachrichtigungen";
